@@ -1,0 +1,55 @@
+2021-08-09 07:04:20 ERROR revature.util.ConnectionUtil:66 - 
+otEmpty{userId= } - 
+otEmpty{event= } - We failed to establish a Connection
+2021-08-09 07:04:39 ERROR revature.util.ConnectionUtil:66 - 
+otEmpty{userId= } - 
+otEmpty{event= } - We failed to establish a Connection
+2021-08-09 07:06:50 INFO  revature.util.ConnectionUtil:63 - 
+otEmpty{userId= } - 
+otEmpty{event= } - url: jdbc:postgresql://database-1.chenkhwxqq2k.us-east-2.rds.amazonaws.com:5432/
+2021-08-09 07:06:50 INFO  revature.util.ConnectionUtil:64 - 
+otEmpty{userId= } - 
+otEmpty{event= } - username: RevaRoceriesDev
+2021-08-09 07:06:50 INFO  revature.util.ConnectionUtil:65 - 
+otEmpty{userId= } - 
+otEmpty{event= } - password: postgres
+2021-08-09 07:06:51 ERROR revature.util.ConnectionUtil:70 - 
+otEmpty{userId= } - 
+otEmpty{event= } - We failed to establish a Connection
+2021-08-09 07:08:37 INFO  revature.util.ConnectionUtil:63 - url: jdbc:postgresql://database-1.chenkhwxqq2k.us-east-2.rds.amazonaws.com:5432/
+2021-08-09 07:08:37 INFO  revature.util.ConnectionUtil:64 - username: RevaRoceriesDev
+2021-08-09 07:08:37 INFO  revature.util.ConnectionUtil:65 - password: postgres
+2021-08-09 07:08:38 ERROR revature.util.ConnectionUtil:70 - We failed to establish a Connection
+2021-08-09 07:09:46 INFO  revature.util.ConnectionUtil:63 - url: jdbc:postgresql://database-1.chenkhwxqq2k.us-east-2.rds.amazonaws.com:5432/postgres
+2021-08-09 07:09:46 INFO  revature.util.ConnectionUtil:64 - username: RevaRoceriesDev
+2021-08-09 07:09:46 INFO  revature.util.ConnectionUtil:65 - password: postgres
+2021-08-09 07:09:47 INFO  revature.util.ConnectionUtil:68 - Database connection extablished!
+2021-08-09 07:10:07 INFO  revature.util.ConnectionUtil:63 - url: jdbc:postgresql://database-1.chenkhwxqq2k.us-east-2.rds.amazonaws.com:5432/postgres
+2021-08-09 07:10:07 INFO  revature.util.ConnectionUtil:64 - username: RevaRoceriesDev
+2021-08-09 07:10:07 INFO  revature.util.ConnectionUtil:65 - password: postgres
+2021-08-09 07:10:08 INFO  revature.util.ConnectionUtil:68 - Database connection extablished!
+2021-08-09 07:11:07 INFO  revature.util.ConnectionUtil:63 - url: jdbc:postgresql://database-1.chenkhwxqq2k.us-east-2.rds.amazonaws.com:5432/postgres
+2021-08-09 07:11:07 INFO  revature.util.ConnectionUtil:64 - username: RevaRoceriesDev
+2021-08-09 07:11:07 INFO  revature.util.ConnectionUtil:65 - password: postgres
+2021-08-09 07:11:08 INFO  revature.util.ConnectionUtil:68 - Database connection extablished!
+2021-08-09 07:16:50 INFO  revature.util.ConnectionUtil:63 - url: jdbc:postgresql://database-1.chenkhwxqq2k.us-east-2.rds.amazonaws.com:5432/postgres
+2021-08-09 07:16:50 INFO  revature.util.ConnectionUtil:64 - username: RevaRoceriesDev
+2021-08-09 07:16:50 INFO  revature.util.ConnectionUtil:65 - password: postgres
+2021-08-09 07:16:51 INFO  revature.util.ConnectionUtil:68 - Database connection extablished!
+2021-08-09 07:16:51 INFO  revature.util.ConnectionUtil:63 - url: jdbc:postgresql://database-1.chenkhwxqq2k.us-east-2.rds.amazonaws.com:5432/postgres
+2021-08-09 07:16:51 INFO  revature.util.ConnectionUtil:64 - username: RevaRoceriesDev
+2021-08-09 07:16:51 INFO  revature.util.ConnectionUtil:65 - password: postgres
+2021-08-09 07:16:51 INFO  revature.util.ConnectionUtil:68 - Database connection extablished!
+2021-08-09 07:17:00 INFO  revature.util.ConnectionUtil:63 - url: jdbc:postgresql://database-1.chenkhwxqq2k.us-east-2.rds.amazonaws.com:5432/postgres
+2021-08-09 07:17:00 INFO  revature.util.ConnectionUtil:64 - username: RevaRoceriesDev
+2021-08-09 07:17:00 INFO  revature.util.ConnectionUtil:65 - password: postgres
+2021-08-09 07:17:01 INFO  revature.util.ConnectionUtil:68 - Database connection extablished!
+2021-08-09 07:17:01 INFO  revature.util.ConnectionUtil:63 - url: jdbc:postgresql://database-1.chenkhwxqq2k.us-east-2.rds.amazonaws.com:5432/postgres
+2021-08-09 07:17:01 INFO  revature.util.ConnectionUtil:64 - username: RevaRoceriesDev
+2021-08-09 07:17:01 INFO  revature.util.ConnectionUtil:65 - password: postgres
+2021-08-09 07:17:02 INFO  revature.util.ConnectionUtil:68 - Database connection extablished!
+2021-08-09 07:17:46 INFO  revature.util.ConnectionUtil:64 - Database connection extablished!
+2021-08-09 07:17:46 INFO  revature.util.ConnectionUtil:64 - Database connection extablished!
+2021-08-09 07:26:26 INFO  revature.util.LoggingConfig:14 - Some information
+2021-08-09 07:26:48 INFO  revature.util.LoggingConfig:14 - Some information
+2021-08-09 07:28:54 INFO  revature.util.LoggingConfig:15 - Some information
