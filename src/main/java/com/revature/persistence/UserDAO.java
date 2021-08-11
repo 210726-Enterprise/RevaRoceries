@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 /*
  * JDBC API:
  *
@@ -43,7 +45,7 @@ public class UserDAO implements DAO<User>{
 
 
     @Override
-    public List<User> findAll() {
+    public Optional<List<User>> findAll() {
         List<User> allUsers = new ArrayList<>();
 
         // Try with resources
@@ -68,7 +70,7 @@ public class UserDAO implements DAO<User>{
             logger.warn(throwables.getMessage());
         }
 
-        return allUsers;
+        return Optional.of(allUsers);
     }
 
     @Override
