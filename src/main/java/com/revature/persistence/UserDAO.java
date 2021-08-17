@@ -51,66 +51,132 @@ public class UserDAO implements DAO<User>{
         // Try with resources
         try(Connection conn = ConnectionUtil.getConnection()){
 
-            String sql = "SELECT * from \"Users\"";
+            String sql = "SELECT * from users";
+            assert conn != null;
             Statement stmt = conn.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
 
             while(rs.next()){
                 allUsers.add(new User(
-                        rs.getInt("id"),
-                        AccountType.values()[rs.getInt("accountType")], // this converts from the ordinal to the type
-                        rs.getString("firstName"),
-                        rs.getString("lastName"),
+                        rs.getInt("user_id"),
+                        AccountType.values()[rs.getInt("account_type_id")], // this converts from the ordinal to the type
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
                         rs.getString("username"),
                         rs.getString("password")
                 ));
             }
-        } catch (SQLException throwables) {
-            logger.warn(throwables.getMessage());
+        } catch (SQLException e) {
+            logger.warn(e.getMessage(), e);
         }
 
         return Optional.of(allUsers);
     }
 
     @Override
-    public User findById(int id) {
+    public Optional<User> findById(int id) {
 
         try(Connection conn = ConnectionUtil.getConnection()){
-            String sql = "Select * from \"Users\" where id = ?";
+            String sql = "SELECT * from users where user_id = ?";
+            assert conn != null;
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if(rs.next()){
-                return new User(
-                        rs.getInt("id"),
-                        AccountType.values()[rs.getInt("accountType")], // this converts from the ordinal to the type
-                        rs.getString("firstName"),
-                        rs.getString("lastName"),
+                return Optional.of(new User(
+                        rs.getInt("user_id"),
+                        AccountType.values()[rs.getInt("account_type_id")], // this converts from the ordinal to the type
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
                         rs.getString("username"),
                         rs.getString("password")
-                );
+                ));
             }
-        } catch (SQLException throwables) {
-            logger.warn(throwables.getMessage(),throwables);
+        } catch (SQLException e) {
+            logger.warn(e.getMessage(), e);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override
     public int insert(User user) {
+
+        try(Connection conn = ConnectionUtil.getConnection()){
+            PreparedStatement stmt;
+            String sql;
+            assert conn != null;
+            if(user.getUserId() != 0){
+                sql = "INSERT into users (user_id, account_type_id, first_name, last_name, username, password) " +
+                        "VALUES (?, ?, ?, ?, ?, ?)";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, user.getUserId());
+                stmt.setInt(2, user.getAccountType().ordinal());
+                stmt.setString(3, user.getFirstName());
+                stmt.setString(4, user.getLastName());
+                stmt.setString(5, user.getUsername());
+                stmt.setString(6, user.getPassword());
+
+            } else{
+                sql = "INSERT into users (account_type_id, first_name, last_name, username, password) " +
+                        "VALUES (?, ?, ?, ?, ?)";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, user.getAccountType().ordinal());
+                stmt.setString(2, user.getFirstName());
+                stmt.setString(3, user.getLastName());
+                stmt.setString(4, user.getUsername());
+                stmt.setString(5, user.getPassword());
+            }
+            return stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.warn(e.getMessage(), e);
+        }
+
         return 0;
     }
 
     @Override
     public boolean update(User user) {
-        return false;
+        int success = 0;
+
+        try(Connection conn = ConnectionUtil.getConnection()){
+            String sql = "UPDATE users set account_type_id = ?, first_name = ?," +
+                    " last_name = ?, username = ?, password = ? " +
+                    "where user_id = ?";
+            assert conn != null;
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, user.getAccountType().ordinal());
+            stmt.setString(2, user.getFirstName());
+            stmt.setString(3, user.getLastName());
+            stmt.setString(4, user.getUsername());
+            stmt.setString(5, user.getPassword());
+            stmt.setInt(6, user.getUserId());
+            success = stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.warn(e.getMessage(), e);
+        }
+
+        return success == 1;
     }
 
     @Override
     public boolean delete(int id) {
-        return false;
+        int success = 0;
+
+        try(Connection conn = ConnectionUtil.getConnection()){
+            String sql = "DELETE from users where user_id = " + id;
+            assert conn != null;
+            Statement stmt = conn.createStatement();
+            success = stmt.executeUpdate(sql);
+
+        } catch (SQLException e) {
+            logger.warn(e.getMessage(), e);
+        }
+        return success == 1;
     }
 }

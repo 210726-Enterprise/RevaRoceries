@@ -36,7 +36,7 @@ public class ConnectionUtil {
     }
 
     // this is our getInstance() method
-    public static Connection getConnection() {
+    public static synchronized Connection getConnection() {
 
         try {
             if (conn  != null && !conn.isClosed()) {
@@ -55,7 +55,9 @@ public class ConnectionUtil {
 
         try {
 
-            prop.load(new FileReader("src/main/resources/application.properties"));
+            Class.forName("org.postgresql.Driver");
+
+            prop.load(new FileReader("C:\\Users\\Brandon\\Documents\\dev\\batch_repos\\07-26-2021\\RevaRoceries\\src\\main\\resources\\application.properties"));
             url = prop.getProperty("url");
             username = prop.getProperty("username");
             password = prop.getProperty("password");
@@ -65,8 +67,8 @@ public class ConnectionUtil {
         } catch (SQLException e) {
             log.error("We failed to establish a Connection");
             return null;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException | IOException e) {
+            log.error(e.getMessage());
         }
 
         return conn;

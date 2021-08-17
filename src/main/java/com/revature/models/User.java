@@ -15,6 +15,14 @@ public class User {
         this.accountType = AccountType.CUSTOMER;
     }
 
+    public User(AccountType accountType, String firstName, String lastName, String username, String password) {
+        this.accountType = accountType;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+    }
+
     public User(int userId, AccountType accountType, String firstName, String lastName, String username, String password) {
         this.userId = userId;
         this.accountType = accountType;

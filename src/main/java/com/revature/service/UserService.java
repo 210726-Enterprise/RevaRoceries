@@ -1,77 +1,85 @@
 package com.revature.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.User;
+import com.revature.persistence.UserDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    private static final List<User> listOfUsers = new ArrayList<>();
 
-    Scanner scanner;
+    private UserDAO dao;
+    private ObjectMapper mapper;
 
-    public UserService(Scanner scanner) {
-        this.scanner = scanner;
+    public UserService(){
+        dao = new UserDAO();
+        mapper = new ObjectMapper();
     }
 
-    public void createUser(){
-        System.out.println("Enter the following");
+    public void getAllUsers(HttpServletRequest req, HttpServletResponse res){
+        try {
+            String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(getUsers());
+            res.getOutputStream().print(json);
 
-        User user = new User();
-
-        System.out.print("First name: ");
-        user.setFirstName(scanner.nextLine());
-        System.out.println();
-
-        System.out.print("Last name: ");
-        user.setLastName(scanner.nextLine());
-        System.out.println();
-
-        System.out.print("Username: ");
-        user.setUsername(scanner.nextLine());
-        System.out.println();
-
-        System.out.print("Password: ");
-        user.setPassword(scanner.nextLine());
-        System.out.println();
-
-        listOfUsers.add(user);
-        // instead
+        } catch (IOException e) {
+            logger.warn(e.getMessage(), e);
+        }
     }
 
-    public void printUsers(){
-        System.out.println("Users: ");
-        System.out.println(listOfUsers);
-    }
+    public void insertUser(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            Map<String, String[]> map = req.getParameterMap();
+            User user = mapper.convertValue(map, User.class);
 
-    public boolean login(){
-        System.out.print("Enter your username: ");
-        String username = scanner.nextLine();
-        System.out.print("Enter your password: ");
-        String password = scanner.nextLine();
-        return validate(username, password);
-    }
 
-    private boolean validate(String username, String password){
+//            StringBuilder builder = new StringBuilder();
+//            req.getReader().lines()
+//            .collect(Collectors.toList())
+//            .forEach(builder::append);
+//
+//            User user = mapper.readValue(builder.toString(), User.class);
+            int result = insert(user);
 
-        User user = null;
+            if(result != 0){
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+            } else{
 
-        for(User u: listOfUsers){
-            if(u.getUsername().equals(username)){
-                user = u;
+                // TODO: refactor with exception propagation to set better status codes
+                resp.setStatus(HttpServletResponse.SC_CONFLICT);
             }
-        }
 
-        if(user == null) {
-            return false;
-        }
-
-        if(user.getPassword().equals(password)) {
-            return true;
-        } else{
-            return false;
+        } catch (Exception e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            logger.warn(e.getMessage());
         }
     }
+
+    private List<User> getUsers(){
+        Optional<List<User>> result = dao.findAll();
+        return result.orElseGet(ArrayList::new);
+
+//                equivalent to the above
+//         if(result.isPresent()){    we check if the optional is not empty
+//            return result.get();    get the value out and return it
+//        }
+//        return new ArrayList<>();   or return an empty
+    }
+
+    private int insert(User user){
+        return dao.insert(user);
+    }
+
+
 }

@@ -2,11 +2,9 @@ package com.revature.util;
 
 import org.apache.log4j.*;
 
-import java.util.Date;
+public class LoggingExample {
 
-public class LoggingConfig {
-
-    final static Logger logger = Logger.getLogger(LoggingConfig.class);
+    final static Logger logger = Logger.getLogger(LoggingExample.class);
 
     public static void main(String[] args){
         /* Log4J Logging Levels - Levels add on to each other

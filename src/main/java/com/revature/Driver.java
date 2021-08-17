@@ -1,47 +1,36 @@
 package com.revature;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.User;
-import com.revature.service.UserService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.IOException;
 
 public class Driver {
-    private static final Scanner scanner = new Scanner(System.in);
-    private static final UserService userService = new UserService(scanner);
+
+    public static void main(String[] args) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+
+        User user = new User();
+        user.setUsername("jackson");
+        user.setLastName("last_name");
 
 
-    public static void main(String[] args) {
-        System.out.println("Welcome to RevaRoceries!");
-        welcomeMenu();
+        // Object to json
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user));
 
-    }
+        String json = "{\n" +
+                "  \"userId\" : 0,\n" +
+                "  \"accountType\" : \"CUSTOMER\",\n" +
+                "  \"firstName\" : null,\n" +
+                "  \"lastName\" : \"last_name\",\n" +
+                "  \"username\" : \"jackson\",\n" +
+                "  \"password\" : null\n" +
+                "}";
 
-    public static void welcomeMenu(){
+        // json to object
+        User user2 = mapper.readValue(json, User.class);
 
-        System.out.println("What would you like to do?");
-        System.out.println("1) Create an Account");
-        System.out.println("2) Log In");
-        System.out.println("3) List of Users");
-        System.out.println("0) Exit");
+        System.out.println(user2);
 
-        String temp = scanner.nextLine();
-
-        switch (temp){
-            case "1": userService.createUser();
-                break;
-            case "2":
-                System.out.println(userService.login());
-                break;
-            case "3": userService.printUsers();
-                break;
-            case "0":
-                System.exit(0);
-            default:
-                System.out.println("Please input only 1 or 2.");
-        }
-
-        welcomeMenu();
     }
 }
