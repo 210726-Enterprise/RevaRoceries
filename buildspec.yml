@@ -7,8 +7,8 @@ phases:
   post_build:
     commands:
       - mvn package
-      - mv target/ROOT.war ROOT.war
+      - mv target/RevaRoceries-0.2.war RevaRoceries-0.2.war
 artifacts:
   files:
-    - ROOT.war
+    - RevaRoceries-0.2.war
     - .ebextensions/**/*
