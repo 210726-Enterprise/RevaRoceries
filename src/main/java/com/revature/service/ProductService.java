@@ -26,13 +26,37 @@ public class ProductService {
         mapper = new ObjectMapper();
     }
 
-    public void getAllProducts(HttpServletRequest req, HttpServletResponse res){
-        try {
-            String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(getProducts());
-            res.getOutputStream().print(json);
+    public void getProducts(HttpServletRequest req, HttpServletResponse res){
+        if(req.getParameter("productId") != null) {
+            if(req.getParameter("productId").equals("")) {
+                res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+            try {
+                String json = mapper
+                        .writerWithDefaultPrettyPrinter()
+                        .writeValueAsString(
+                                getProduct(Integer.parseInt(req.getParameter("productId"))));
 
-        } catch (IOException e) {
-            logger.warn(e.getMessage(), e);
+                if(json.equals("null")) {
+                    res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    return;
+                }
+
+                res.getOutputStream().print(json);
+
+            } catch (IOException e) {
+                logger.warn(e.getMessage(), e);
+            }
+        } else {
+
+            try {
+                String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(getAllProducts());
+                res.getOutputStream().print(json);
+
+            } catch (IOException e) {
+                logger.warn(e.getMessage(), e);
+            }
         }
     }
 
@@ -104,7 +128,12 @@ public class ProductService {
         }
     }
 
-    private List<Product> getProducts(){
+    private Product getProduct(int id) {
+        Optional<Product> result = dao.findById(id);
+        return result.orElse(null);
+    }
+
+    private List<Product> getAllProducts(){
         Optional<List<Product>> result = dao.findAll();
         return result.orElseGet(ArrayList::new);
 
