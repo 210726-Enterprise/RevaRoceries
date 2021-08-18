@@ -57,7 +57,13 @@ public class ConnectionUtil {
 
             Class.forName("org.postgresql.Driver");
 
-            prop.load(new FileReader("C:\\Users\\Brandon\\Documents\\dev\\batch_repos\\07-26-2021\\RevaRoceries\\src\\main\\resources\\application.properties"));
+            ClassLoader loader = ConnectionUtil.class.getClassLoader();
+            if(loader == null)
+                loader = ClassLoader.getSystemClassLoader();
+            String propFile = "conf/application.properties";
+            java.net.URL jurl = loader.getResource(propFile);
+
+            prop.load(jurl.openStream());
             url = prop.getProperty("url");
             username = prop.getProperty("username");
             password = prop.getProperty("password");
