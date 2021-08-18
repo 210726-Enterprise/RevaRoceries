@@ -57,23 +57,28 @@ public class ConnectionUtil {
 
             Class.forName("org.postgresql.Driver");
 
-            ClassLoader loader = ConnectionUtil.class.getClassLoader();
-            if(loader == null)
-                loader = ClassLoader.getSystemClassLoader();
-            String propFile = "conf/application.properties";
-            java.net.URL jurl = loader.getResource(propFile);
+//            ClassLoader loader = ConnectionUtil.class.getClassLoader();
+//            if(loader == null)
+//                loader = ClassLoader.getSystemClassLoader();
+//            String propFile = "conf/application.properties";
+//            java.net.URL jurl = loader.getResource(propFile);
+//
+//            assert jurl != null;
+//            prop.load(jurl.openStream());
+//            url = prop.getProperty("url");
+//            username = prop.getProperty("username");
+//            password = prop.getProperty("password");
 
-            prop.load(jurl.openStream());
-            url = prop.getProperty("url");
-            username = prop.getProperty("username");
-            password = prop.getProperty("password");
+            url = "jdbc:postgresql://database-1.chenkhwxqq2k.us-east-2.rds.amazonaws.com:5432/postgres";
+            username = "RevaRoceriesDev";
+            password = "postgres";
 
             conn = DriverManager.getConnection(url, username, password);
             log.info("Database connection established!");
         } catch (SQLException e) {
             log.error("We failed to establish a Connection");
             return null;
-        } catch (ClassNotFoundException | IOException e) {
+        } catch (ClassNotFoundException e) {
             log.error(e.getMessage());
         }
 
