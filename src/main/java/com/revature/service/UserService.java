@@ -66,6 +66,36 @@ public class UserService {
         }
     }
 
+    public void updateUser(HttpServletRequest req, HttpServletResponse resp) {
+        StringBuilder builder = new StringBuilder();
+        try {
+
+            req.getReader().lines()
+                    .collect(Collectors.toList())
+                    .forEach(builder::append);
+
+            User user = mapper.readValue(builder.toString(), User.class);
+
+            if(user.getUserId() != 0){
+                boolean result = update(user);
+
+                if(result){
+                    resp.setStatus(HttpServletResponse.SC_OK);
+
+                    String JSON = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user);
+                    resp.getWriter().print(JSON);
+                }
+
+            } else{
+                resp.setStatus(HttpServletResponse.SC_CONFLICT);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void deleteUser(HttpServletRequest req, HttpServletResponse resp) {
         boolean result = delete(Integer.parseInt(req.getParameter("userId")));
 
@@ -89,6 +119,10 @@ public class UserService {
 
     private int insert(User user){
         return dao.insert(user);
+    }
+
+    private boolean update(User user){
+        return dao.update(user);
     }
 
     private boolean delete(int id){

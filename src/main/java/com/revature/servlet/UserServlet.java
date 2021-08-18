@@ -38,9 +38,14 @@ public class UserServlet extends HttpServlet {
         service.insertUser(req, resp);
     }
 
+    /*
+        doUpdate needs to send the request containing a user to update along with the response to the service
+        to parse the JSON and send the updated user to the DAO. The service will then take the user back from
+        the DAO and send it through the response.
+     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        service.updateUser(req, resp);
     }
 
     /*
