@@ -40,16 +40,16 @@ public class UserService {
 
     public void insertUser(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            Map<String, String[]> map = req.getParameterMap();
-            User user = mapper.convertValue(map, User.class);
+//            Map<String, String[]> map = req.getParameterMap();
+//            User user = mapper.convertValue(map, User.class);
 
 
-//            StringBuilder builder = new StringBuilder();
-//            req.getReader().lines()
-//            .collect(Collectors.toList())
-//            .forEach(builder::append);
-//
-//            User user = mapper.readValue(builder.toString(), User.class);
+            StringBuilder builder = new StringBuilder();
+            req.getReader().lines()
+            .collect(Collectors.toList())
+            .forEach(builder::append);
+
+            User user = mapper.readValue(builder.toString(), User.class);
             int result = insert(user);
 
             if(result != 0){
@@ -63,6 +63,16 @@ public class UserService {
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             logger.warn(e.getMessage());
+        }
+    }
+
+    public void deleteUser(HttpServletRequest req, HttpServletResponse resp) {
+        boolean result = delete(Integer.parseInt(req.getParameter("userId")));
+
+        if(result){
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } else{
+            resp.setStatus(HttpServletResponse.SC_CONFLICT);
         }
     }
 
@@ -80,6 +90,11 @@ public class UserService {
     private int insert(User user){
         return dao.insert(user);
     }
+
+    private boolean delete(int id){
+        return dao.delete(id);
+    }
+
 
 
 }

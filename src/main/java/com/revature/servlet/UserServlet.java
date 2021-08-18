@@ -43,8 +43,12 @@ public class UserServlet extends HttpServlet {
         super.doPut(req, resp);
     }
 
+    /*
+        doDelete need the request and response to the service so the service can extract the id of the user
+        it needs to delete.
+     */
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        service.deleteUser(req, resp);
     }
 }
