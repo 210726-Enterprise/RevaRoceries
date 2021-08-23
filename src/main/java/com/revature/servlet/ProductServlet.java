@@ -9,14 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/products")
 public class ProductServlet extends HttpServlet {
 
 
     ProductService service;
 
-    public ProductServlet() {
-        this.service = new ProductService();
+    public ProductServlet(ProductService productService) {
+        this.service = productService;
     }
 
     /*

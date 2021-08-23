@@ -1,36 +1,39 @@
 package com.revature;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.User;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.revature.persistence.ProductDAO;
+import com.revature.persistence.UserDAO;
+import com.revature.service.ProductService;
+import com.revature.service.UserService;
+import com.revature.servlet.ProductServlet;
+import com.revature.servlet.UserServlet;
 
-import java.io.IOException;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
-public class Driver {
+@WebListener
+public class Driver implements ServletContextListener {
 
-    public static void main(String[] args) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        UserDAO userDAO = new UserDAO();
+        ProductDAO productDAO = new ProductDAO();
 
-        User user = new User();
-        user.setUsername("jackson");
-        user.setLastName("last_name");
+        ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
+        UserService userService = new UserService(userDAO, objectMapper);
+        ProductService productService = new ProductService(productDAO, objectMapper);
 
-        // Object to json
-        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user));
+        ServletContext context = sce.getServletContext();
+        context.addServlet("User Servlet", new UserServlet(userService)).addMapping("/users");
+        context.addServlet("Product Servlet", new ProductServlet(productService)).addMapping("/products");
+    }
 
-        String json = "{\n" +
-                "  \"userId\" : 0,\n" +
-                "  \"accountType\" : \"CUSTOMER\",\n" +
-                "  \"firstName\" : null,\n" +
-                "  \"lastName\" : \"last_name\",\n" +
-                "  \"username\" : \"jackson\",\n" +
-                "  \"password\" : null\n" +
-                "}";
-
-        // json to object
-        User user2 = mapper.readValue(json, User.class);
-
-        System.out.println(user2);
-
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        ServletContextListener.super.contextDestroyed(sce);
     }
 }

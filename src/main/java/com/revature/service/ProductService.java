@@ -21,9 +21,9 @@ public class ProductService {
     private ProductDAO dao;
     private ObjectMapper mapper;
 
-    public ProductService(){
-        dao = new ProductDAO();
-        mapper = new ObjectMapper();
+    public ProductService(ProductDAO productDAO, ObjectMapper objectMapper){
+        dao = productDAO;
+        mapper = objectMapper;
     }
 
     public void getProducts(HttpServletRequest req, HttpServletResponse res){

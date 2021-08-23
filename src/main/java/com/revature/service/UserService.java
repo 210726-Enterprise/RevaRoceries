@@ -23,14 +23,16 @@ public class UserService {
     private UserDAO dao;
     private ObjectMapper mapper;
 
-    public UserService(){
-        dao = new UserDAO();
-        mapper = new ObjectMapper();
+
+    public UserService(UserDAO userDAO, ObjectMapper mapper){
+        this.dao = userDAO;
+        this.mapper = mapper;
     }
 
-    public void getAllUsers(HttpServletRequest req, HttpServletResponse res){
+    public void getAllUsers(HttpServletRequest req, HttpServletResponse res) {
         try {
             String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(getUsers());
+            res.setStatus(HttpServletResponse.SC_OK);
             res.getOutputStream().print(json);
 
         } catch (IOException e) {

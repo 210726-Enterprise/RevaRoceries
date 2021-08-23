@@ -11,14 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/users")
+@WebServlet(urlPatterns = "/usersA")
 public class UserServlet extends HttpServlet {
 
 
     UserService service;
 
-    public UserServlet() {
-        this.service = new UserService();
+
+
+    public UserServlet(UserService userService) {
+        this.service = userService;
     }
 
     /*
